@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="SecurityTrace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Trace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreatIntelligenceCallback.cpp">
+      <Filter>ThreatIntelligenceCallback</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SecurityTrace.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Trace.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreatIntelligenceCallback.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{bd943827-7367-478a-9dfa-c2011f22b93e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{af6015ec-0af5-482f-9e8c-94d43244b54f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assembly Files">
+      <UniqueIdentifier>{45dfeab7-cca7-4408-b78f-b5b888f84e07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThreatIntelligenceCallback">
+      <UniqueIdentifier>{4bafb50c-a462-4c81-9bcb-e9670ef8a546}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="Hooks.asm">
+      <Filter>Assembly Files</Filter>
+    </MASM>
+  </ItemGroup>
+</Project>
