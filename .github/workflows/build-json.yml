@@ -1,4 +1,4 @@
-name: Build x64 NDJSON executable
+name: Build x64 multi-provider NDJSON executable
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ jobs:
       - name: Check out the pinned fork
         uses: actions/checkout@v4
 
-      - name: Apply reviewed NDJSON source patch
+      - name: Apply reviewed multi-provider NDJSON patch
         shell: pwsh
         run: |
           $patchBase64 = @'
@@ -38,7 +38,7 @@ jobs:
           YWNlUmVzb3VyY2VzKCk7CiAKIAlyZXR1cm4gZXJyb3I7Ci19ClwgTm8gbmV3bGluZSBhdCBlbmQg
           b2YgZmlsZQorfQpkaWZmIC0tZ2l0IGEvVGhyZWF0SW50ZWxsaWdlbmNlQ29uc3VtZXIvVGhyZWF0
           SW50ZWxsaWdlbmNlQ2FsbGJhY2suY3BwIGIvVGhyZWF0SW50ZWxsaWdlbmNlQ29uc3VtZXIvVGhy
-          ZWF0SW50ZWxsaWdlbmNlQ2FsbGJhY2suY3BwCmluZGV4IGE1ZWJjZDEuLmZjNDBmNTggMTAwNjQ0
+          ZWF0SW50ZWxsaWdlbmNlQ2FsbGJhY2suY3BwCmluZGV4IGE1ZWJjZDEuLjljZDY1MTAgMTAwNjQ0
           Ci0tLSBhL1RocmVhdEludGVsbGlnZW5jZUNvbnN1bWVyL1RocmVhdEludGVsbGlnZW5jZUNhbGxi
           YWNrLmNwcAorKysgYi9UaHJlYXRJbnRlbGxpZ2VuY2VDb25zdW1lci9UaHJlYXRJbnRlbGxpZ2Vu
           Y2VDYWxsYmFjay5jcHAKQEAgLTgsNiArOCwxODkgQEAKICoKIC0tKi8KICNpbmNsdWRlICJUaHJl
@@ -146,53 +146,67 @@ jobs:
           SU5WQUxJRF9IQU5ETEVfVkFMVUU7CisgICAgICAgIHdwcmludGYoTCJbK10gV3JvdGUgJWxsdSBl
           dmVudChzKSB0byB0aGUgTkRKU09OIG91dHB1dC5cbiIsIGdfRXZlbnRDb3VudCk7CisgICAgfQor
           CisgICAgUmVsZWFzZVNSV0xvY2tFeGNsdXNpdmUoJmdfSnNvbkxvZ0xvY2spOworfQogCiAvKioK
-          ICoKQEAgLTIwLDYgKzIwMywxMSBAQCBIYW5kbGVUaHJlYXRJbnRlbGxpZ2VuY2VDYWxsYmFjayAo
-          CiAgICAgX0luXyBQRVZFTlRfUkVDT1JEIEV2ZW50UmVjb3JkCiAgICAgKQogeworICAgIGNvbnN0
-          IHN0ZDo6c3RyaW5nIGpzb24gPSBTZXJpYWxpemVFdmVudChFdmVudFJlY29yZCk7CisgICAgQk9P
-          TCB3cml0ZVN1Y2NlZWRlZDsKKyAgICBVTE9ORyB3cml0ZUVycm9yOworICAgIERXT1JEIGJ5dGVz
-          V3JpdHRlbjsKKwogICAgIHdwcmludGYoTCJbK10gW0hhbmRsZVRocmVhdEludGVsbGlnZW5jZUNh
-          bGxiYWNrXSBIZWxsbyBmcm9tIHRoZSBUaHJlYXQtSW50ZWxsaWdlbmNlIEVUVyBjYWxsYmFjayFc
-          biIpOwogCiAgICAgLy8KQEAgLTM4LDUgKzIyNiwzMCBAQCBIYW5kbGVUaHJlYXRJbnRlbGxpZ2Vu
-          Y2VDYWxsYmFjayAoCiAgICAgICAgICAgICBFdmVudFJlY29yZC0+RXZlbnRIZWFkZXIuUHJvdmlk
-          ZXJJZC5EYXRhNFs2XSwKICAgICAgICAgICAgIEV2ZW50UmVjb3JkLT5FdmVudEhlYWRlci5Qcm92
-          aWRlcklkLkRhdGE0WzddKTsKIAorICAgIEFjcXVpcmVTUldMb2NrRXhjbHVzaXZlKCZnX0pzb25M
-          b2dMb2NrKTsKKworICAgIGlmIChnX0pzb25Mb2cgIT0gSU5WQUxJRF9IQU5ETEVfVkFMVUUpCisg
-          ICAgeworICAgICAgICBieXRlc1dyaXR0ZW4gPSAwOworICAgICAgICB3cml0ZVN1Y2NlZWRlZCA9
-          IFdyaXRlRmlsZShnX0pzb25Mb2csCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-          IGpzb24uZGF0YSgpLAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzdGF0aWNf
-          Y2FzdDxEV09SRD4oanNvbi5zaXplKCkpLAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-          ICAgICAmYnl0ZXNXcml0dGVuLAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBu
-          dWxscHRyKTsKKyAgICAgICAgd3JpdGVFcnJvciA9IHdyaXRlU3VjY2VlZGVkID8gRVJST1JfV1JJ
-          VEVfRkFVTFQgOiBHZXRMYXN0RXJyb3IoKTsKKyAgICAgICAgaWYgKCF3cml0ZVN1Y2NlZWRlZCB8
-          fCBieXRlc1dyaXR0ZW4gIT0gc3RhdGljX2Nhc3Q8RFdPUkQ+KGpzb24uc2l6ZSgpKSkKKyAgICAg
-          ICAgeworICAgICAgICAgICAgd3ByaW50ZihMIlstXSBDb3VsZCBub3Qgd3JpdGUgdGhlIE5ESlNP
-          TiBldmVudCAoRXJyb3I6IDB4JWx4KVxuIiwgd3JpdGVFcnJvcik7CisgICAgICAgIH0KKworICAg
-          ICAgICBnX0V2ZW50Q291bnQrKzsKKyAgICAgICAgaWYgKChnX0V2ZW50Q291bnQgJSAxNikgPT0g
-          MCkKKyAgICAgICAgeworICAgICAgICAgICAgRmx1c2hGaWxlQnVmZmVycyhnX0pzb25Mb2cpOwor
-          ICAgICAgICB9CisgICAgfQorCisgICAgUmVsZWFzZVNSV0xvY2tFeGNsdXNpdmUoJmdfSnNvbkxv
-          Z0xvY2spOworCiAgICAgcmV0dXJuOwotfQpcIE5vIG5ld2xpbmUgYXQgZW5kIG9mIGZpbGUKK30K
-          ZGlmZiAtLWdpdCBhL1RocmVhdEludGVsbGlnZW5jZUNvbnN1bWVyL1RocmVhdEludGVsbGlnZW5j
-          ZUNhbGxiYWNrLmhwcCBiL1RocmVhdEludGVsbGlnZW5jZUNvbnN1bWVyL1RocmVhdEludGVsbGln
-          ZW5jZUNhbGxiYWNrLmhwcAppbmRleCBiZDViYTc5Li43NThhNDQ3IDEwMDY0NAotLS0gYS9UaHJl
-          YXRJbnRlbGxpZ2VuY2VDb25zdW1lci9UaHJlYXRJbnRlbGxpZ2VuY2VDYWxsYmFjay5ocHAKKysr
-          IGIvVGhyZWF0SW50ZWxsaWdlbmNlQ29uc3VtZXIvVGhyZWF0SW50ZWxsaWdlbmNlQ2FsbGJhY2su
-          aHBwCkBAIC0xLDcgKzEsMTUgQEAKICNwcmFnbWEgb25jZQogI2luY2x1ZGUgIlRyYWNlLmhwcCIK
-          IAorVUxPTkcKK0luaXRpYWxpemVUaHJlYXRJbnRlbGxpZ2VuY2VKc29uTG9nICgKKyAgICBfSW5f
-          IExQQ1dTVFIgT3V0cHV0UGF0aAorICAgICk7CisKK3ZvaWQKK0Nsb3NlVGhyZWF0SW50ZWxsaWdl
-          bmNlSnNvbkxvZyAoKTsKKwogdm9pZAogSGFuZGxlVGhyZWF0SW50ZWxsaWdlbmNlQ2FsbGJhY2sg
-          KAogICAgIF9Jbl8gUEVWRU5UX1JFQ09SRCBFdmVudFJlY29yZAotICAgICk7ClwgTm8gbmV3bGlu
-          ZSBhdCBlbmQgb2YgZmlsZQorICAgICk7CmRpZmYgLS1naXQgYS9UaHJlYXRJbnRlbGxpZ2VuY2VD
-          b25zdW1lci9UcmFjZS5jcHAgYi9UaHJlYXRJbnRlbGxpZ2VuY2VDb25zdW1lci9UcmFjZS5jcHAK
-          aW5kZXggNzZjZmM0Zi4uMzdjOGVhNyAxMDA2NDQKLS0tIGEvVGhyZWF0SW50ZWxsaWdlbmNlQ29u
-          c3VtZXIvVHJhY2UuY3BwCisrKyBiL1RocmVhdEludGVsbGlnZW5jZUNvbnN1bWVyL1RyYWNlLmNw
-          cApAQCAtMzEsOCArMzEsNyBAQCBQcm9jZXNzTXlUcmFjZSAoCiAgICAgZXJyb3IgPSBQcm9jZXNz
-          VHJhY2UodHJhY2VIYW5kbGUsIDEsIE5VTEwsIE5VTEwpOwogICAgIGlmIChlcnJvciAhPSBFUlJP
-          Ul9TVUNDRVNTKQogICAgIHsKLSAgICAgICAgZXJyb3IgPSBHZXRMYXN0RXJyb3IoKTsKLSAgICAg
-          ICAgd3ByaW50ZihMIlstXSBFcnJvciBpbiBQcm9jZXNzVHJhY2UhIChFcnJvcjogMHglbHgpXG4i
-          LCBlcnJvcik7CisgICAgICAgIHdwcmludGYoTCJbLV0gUHJvY2Vzc1RyYWNlIHJldHVybmVkOiAw
-          eCVseCAoJWx1KVxuIiwgZXJyb3IsIGVycm9yKTsKICAgICAgICAgZ290byBFeGl0OwogICAgIH0K
-          IApAQCAtMTg4LDQgKzE4Nyw0IEBAIEV4aXQ6CiAgICAgfQogCiAgICAgcmV0dXJuIGVycm9yOwot
-          fQpcIE5vIG5ld2xpbmUgYXQgZW5kIG9mIGZpbGUKK30K
+          ICoKQEAgLTIwLDEyICsyMDMsMTIgQEAgSGFuZGxlVGhyZWF0SW50ZWxsaWdlbmNlQ2FsbGJhY2sg
+          KAogICAgIF9Jbl8gUEVWRU5UX1JFQ09SRCBFdmVudFJlY29yZAogICAgICkKIHsKLSAgICB3cHJp
+          bnRmKEwiWytdIFtIYW5kbGVUaHJlYXRJbnRlbGxpZ2VuY2VDYWxsYmFja10gSGVsbG8gZnJvbSB0
+          aGUgVGhyZWF0LUludGVsbGlnZW5jZSBFVFcgY2FsbGJhY2shXG4iKTsKKyAgICBjb25zdCBzdGQ6
+          OnN0cmluZyBqc29uID0gU2VyaWFsaXplRXZlbnQoRXZlbnRSZWNvcmQpOworICAgIEJPT0wgd3Jp
+          dGVTdWNjZWVkZWQ7CisgICAgVUxPTkcgd3JpdGVFcnJvcjsKKyAgICBEV09SRCBieXRlc1dyaXR0
+          ZW47CiAKLSAgICAvLwotICAgIC8vIFByaW50IHRoZSBHVUlECi0gICAgLy8KLSAgICB3cHJpbnRm
+          KEwiICBbKl0gR1VJRCA9IHslMDhsWC0lMDRoWC0lMDRoWC0lMDJoaFglMDJoaFgtJTAyaGhYJTAy
+          aGhYJTAyaGhYJTAyaGhYJTAyaGhYJTAyaGhYfVxuIiwKKyAgICB3cHJpbnRmKEwiWytdIEVUVyBl
+          dmVudDogcHJvdmlkZXI9eyUwOGxYLSUwNGhYLSUwNGhYLSUwMmhoWCUwMmhoWC0lMDJoaFglMDJo
+          aFglMDJoaFglMDJoaFglMDJoaFglMDJoaFh9IGlkPSVodSBwaWQ9JWx1IHRpZD0lbHVcbiIsCiAg
+          ICAgICAgICAgICBFdmVudFJlY29yZC0+RXZlbnRIZWFkZXIuUHJvdmlkZXJJZC5EYXRhMSwKICAg
+          ICAgICAgICAgIEV2ZW50UmVjb3JkLT5FdmVudEhlYWRlci5Qcm92aWRlcklkLkRhdGEyLAogICAg
+          ICAgICAgICAgRXZlbnRSZWNvcmQtPkV2ZW50SGVhZGVyLlByb3ZpZGVySWQuRGF0YTMsCkBAIC0z
+          Niw3ICsyMTksMzUgQEAgSGFuZGxlVGhyZWF0SW50ZWxsaWdlbmNlQ2FsbGJhY2sgKAogICAgICAg
+          ICAgICAgRXZlbnRSZWNvcmQtPkV2ZW50SGVhZGVyLlByb3ZpZGVySWQuRGF0YTRbNF0sCiAgICAg
+          ICAgICAgICBFdmVudFJlY29yZC0+RXZlbnRIZWFkZXIuUHJvdmlkZXJJZC5EYXRhNFs1XSwKICAg
+          ICAgICAgICAgIEV2ZW50UmVjb3JkLT5FdmVudEhlYWRlci5Qcm92aWRlcklkLkRhdGE0WzZdLAot
+          ICAgICAgICAgICAgRXZlbnRSZWNvcmQtPkV2ZW50SGVhZGVyLlByb3ZpZGVySWQuRGF0YTRbN10p
+          OworICAgICAgICAgICAgRXZlbnRSZWNvcmQtPkV2ZW50SGVhZGVyLlByb3ZpZGVySWQuRGF0YTRb
+          N10sCisgICAgICAgICAgICBFdmVudFJlY29yZC0+RXZlbnRIZWFkZXIuRXZlbnREZXNjcmlwdG9y
+          LklkLAorICAgICAgICAgICAgRXZlbnRSZWNvcmQtPkV2ZW50SGVhZGVyLlByb2Nlc3NJZCwKKyAg
+          ICAgICAgICAgIEV2ZW50UmVjb3JkLT5FdmVudEhlYWRlci5UaHJlYWRJZCk7CisKKyAgICBBY3F1
+          aXJlU1JXTG9ja0V4Y2x1c2l2ZSgmZ19Kc29uTG9nTG9jayk7CisKKyAgICBpZiAoZ19Kc29uTG9n
+          ICE9IElOVkFMSURfSEFORExFX1ZBTFVFKQorICAgIHsKKyAgICAgICAgYnl0ZXNXcml0dGVuID0g
+          MDsKKyAgICAgICAgd3JpdGVTdWNjZWVkZWQgPSBXcml0ZUZpbGUoZ19Kc29uTG9nLAorICAgICAg
+          ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBqc29uLmRhdGEoKSwKKyAgICAgICAgICAgICAg
+          ICAgICAgICAgICAgICAgICAgICAgc3RhdGljX2Nhc3Q8RFdPUkQ+KGpzb24uc2l6ZSgpKSwKKyAg
+          ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJmJ5dGVzV3JpdHRlbiwKKyAgICAgICAg
+          ICAgICAgICAgICAgICAgICAgICAgICAgICAgbnVsbHB0cik7CisgICAgICAgIHdyaXRlRXJyb3Ig
+          PSB3cml0ZVN1Y2NlZWRlZCA/IEVSUk9SX1dSSVRFX0ZBVUxUIDogR2V0TGFzdEVycm9yKCk7Cisg
+          ICAgICAgIGlmICghd3JpdGVTdWNjZWVkZWQgfHwgYnl0ZXNXcml0dGVuICE9IHN0YXRpY19jYXN0
+          PERXT1JEPihqc29uLnNpemUoKSkpCisgICAgICAgIHsKKyAgICAgICAgICAgIHdwcmludGYoTCJb
+          LV0gQ291bGQgbm90IHdyaXRlIHRoZSBOREpTT04gZXZlbnQgKEVycm9yOiAweCVseClcbiIsIHdy
+          aXRlRXJyb3IpOworICAgICAgICB9CisKKyAgICAgICAgZ19FdmVudENvdW50Kys7CisgICAgICAg
+          IGlmICgoZ19FdmVudENvdW50ICUgMTYpID09IDApCisgICAgICAgIHsKKyAgICAgICAgICAgIEZs
+          dXNoRmlsZUJ1ZmZlcnMoZ19Kc29uTG9nKTsKKyAgICAgICAgfQorICAgIH0KKworICAgIFJlbGVh
+          c2VTUldMb2NrRXhjbHVzaXZlKCZnX0pzb25Mb2dMb2NrKTsKIAogICAgIHJldHVybjsKLX0KXCBO
+          byBuZXdsaW5lIGF0IGVuZCBvZiBmaWxlCit9CmRpZmYgLS1naXQgYS9UaHJlYXRJbnRlbGxpZ2Vu
+          Y2VDb25zdW1lci9UaHJlYXRJbnRlbGxpZ2VuY2VDYWxsYmFjay5ocHAgYi9UaHJlYXRJbnRlbGxp
+          Z2VuY2VDb25zdW1lci9UaHJlYXRJbnRlbGxpZ2VuY2VDYWxsYmFjay5ocHAKaW5kZXggYmQ1YmE3
+          OS4uNzU4YTQ0NyAxMDA2NDQKLS0tIGEvVGhyZWF0SW50ZWxsaWdlbmNlQ29uc3VtZXIvVGhyZWF0
+          SW50ZWxsaWdlbmNlQ2FsbGJhY2suaHBwCisrKyBiL1RocmVhdEludGVsbGlnZW5jZUNvbnN1bWVy
+          L1RocmVhdEludGVsbGlnZW5jZUNhbGxiYWNrLmhwcApAQCAtMSw3ICsxLDE1IEBACiAjcHJhZ21h
+          IG9uY2UKICNpbmNsdWRlICJUcmFjZS5ocHAiCiAKK1VMT05HCitJbml0aWFsaXplVGhyZWF0SW50
+          ZWxsaWdlbmNlSnNvbkxvZyAoCisgICAgX0luXyBMUENXU1RSIE91dHB1dFBhdGgKKyAgICApOwor
+          Cit2b2lkCitDbG9zZVRocmVhdEludGVsbGlnZW5jZUpzb25Mb2cgKCk7CisKIHZvaWQKIEhhbmRs
+          ZVRocmVhdEludGVsbGlnZW5jZUNhbGxiYWNrICgKICAgICBfSW5fIFBFVkVOVF9SRUNPUkQgRXZl
+          bnRSZWNvcmQKLSAgICApOwpcIE5vIG5ld2xpbmUgYXQgZW5kIG9mIGZpbGUKKyAgICApOwpkaWZm
+          IC0tZ2l0IGEvVGhyZWF0SW50ZWxsaWdlbmNlQ29uc3VtZXIvVHJhY2UuY3BwIGIvVGhyZWF0SW50
+          ZWxsaWdlbmNlQ29uc3VtZXIvVHJhY2UuY3BwCmluZGV4IDc2Y2ZjNGYuLjM3YzhlYTcgMTAwNjQ0
+          Ci0tLSBhL1RocmVhdEludGVsbGlnZW5jZUNvbnN1bWVyL1RyYWNlLmNwcAorKysgYi9UaHJlYXRJ
+          bnRlbGxpZ2VuY2VDb25zdW1lci9UcmFjZS5jcHAKQEAgLTMxLDggKzMxLDcgQEAgUHJvY2Vzc015
+          VHJhY2UgKAogICAgIGVycm9yID0gUHJvY2Vzc1RyYWNlKHRyYWNlSGFuZGxlLCAxLCBOVUxMLCBO
+          VUxMKTsKICAgICBpZiAoZXJyb3IgIT0gRVJST1JfU1VDQ0VTUykKICAgICB7Ci0gICAgICAgIGVy
+          cm9yID0gR2V0TGFzdEVycm9yKCk7Ci0gICAgICAgIHdwcmludGYoTCJbLV0gRXJyb3IgaW4gUHJv
+          Y2Vzc1RyYWNlISAoRXJyb3I6IDB4JWx4KVxuIiwgZXJyb3IpOworICAgICAgICB3cHJpbnRmKEwi
+          Wy1dIFByb2Nlc3NUcmFjZSByZXR1cm5lZDogMHglbHggKCVsdSlcbiIsIGVycm9yLCBlcnJvcik7
+          CiAgICAgICAgIGdvdG8gRXhpdDsKICAgICB9CiAKQEAgLTE4OCw0ICsxODcsNCBAQCBFeGl0Ogog
+          ICAgIH0KIAogICAgIHJldHVybiBlcnJvcjsKLX0KXCBObyBuZXdsaW5lIGF0IGVuZCBvZiBmaWxl
+          Cit9Cg==
           '@
           $patchPath = Join-Path $env:RUNNER_TEMP 'json-output.patch'
           [IO.File]::WriteAllBytes(
@@ -226,7 +240,7 @@ jobs:
             throw 'Release x64 executable was not produced.'
           }
 
-          $staging = Join-Path $env:RUNNER_TEMP 'ThreatIntelligenceConsumer-x64-ndjson'
+          $staging = Join-Path $env:RUNNER_TEMP 'ThreatIntelligenceConsumer-x64-multiprovider-ndjson'
           New-Item -ItemType Directory -Path $staging -Force | Out-Null
 
           $outputExe = Join-Path $staging 'ThreatIntelligenceConsumer-json.exe'
@@ -242,6 +256,7 @@ jobs:
             'Base upstream commit: bcaa3e2c10d6aea0b78dc5a8b6142cac37eb585c'
             "Built UTC: $([DateTime]::UtcNow.ToString('o'))"
             'Platform: Release x64'
+            'Scope: every provider configured under 0MyThreatIntelTrace'
             'Default output: ti-events.ndjson in the current directory'
             'Custom output: ThreatIntelligenceConsumer-json.exe C:\path\events.ndjson'
           ) | Set-Content (Join-Path $staging 'BUILD_INFO.txt') -Encoding utf8
@@ -249,11 +264,11 @@ jobs:
           Get-Item $outputExe | Format-List FullName,Length,LastWriteTimeUtc
           $hash | Format-List Algorithm,Hash,Path
 
-      - name: Upload x64 NDJSON executable
+      - name: Upload x64 multi-provider NDJSON executable
         uses: actions/upload-artifact@v4
         with:
-          name: ThreatIntelligenceConsumer-x64-ndjson
-          path: ${{ runner.temp }}\ThreatIntelligenceConsumer-x64-ndjson
+          name: ThreatIntelligenceConsumer-x64-multiprovider-ndjson
+          path: ${{ runner.temp }}\ThreatIntelligenceConsumer-x64-multiprovider-ndjson
           if-no-files-found: error
           retention-days: 7
 
