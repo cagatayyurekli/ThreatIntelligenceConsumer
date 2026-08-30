@@ -1,0 +1,38 @@
+name: Build x64 executable
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2022
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: bcaa3e2c10d6aea0b78dc5a8b6142cac37eb585c
+
+      - uses: microsoft/setup-msbuild@v2
+
+      - name: Build Release x64
+        run: >
+          msbuild
+          ThreatIntelligenceConsumer\ThreatIntelligenceConsumer.sln
+          /m
+          /p:Configuration=Release
+          /p:Platform=x64
+
+      - name: Show hash
+        shell: pwsh
+        run: |
+          Get-ChildItem -Recurse -Filter ThreatIntelligenceConsumer.exe |
+            ForEach-Object {
+              Get-Item $_.FullName
+              Get-FileHash $_.FullName -Algorithm SHA256
+            }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ThreatIntelligenceConsumer-x64
+          path: "**/x64/Release/ThreatIntelligenceConsumer.exe"
+          if-no-files-found: error
