@@ -795,7 +795,23 @@ jobs:
             throw 'Release x64 executable was not produced.'
           }
 
-          $imports = dumpbin /imports $exe.FullName | Out-String
+          $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
+          if (-not (Test-Path $vswhere)) {
+            throw 'Visual Studio locator was not found.'
+          }
+
+          $dumpbin = & $vswhere `
+            -latest `
+            -products * `
+            -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 `
+            -find 'VC\Tools\MSVC\**\bin\Hostx64\x64\dumpbin.exe' |
+            Select-Object -First 1
+
+          if (-not $dumpbin -or -not (Test-Path $dumpbin)) {
+            throw 'Visual Studio dumpbin.exe was not found.'
+          }
+
+          $imports = & $dumpbin /imports $exe.FullName | Out-String
           if ($imports -notmatch '(?i)tdh\.dll' -or
               $imports -notmatch 'TdhGetEventInformation' -or
               $imports -notmatch 'TdhFormatProperty') {
