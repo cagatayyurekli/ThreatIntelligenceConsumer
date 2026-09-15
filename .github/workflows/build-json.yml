@@ -1,7 +1,12 @@
-name: Build x64 TDH-decoding multi-provider NDJSON executable
+name: Build x64 TDH-decoding NDJSON executable (three-provider test)
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/build-json.yml
+      - profiles/**
 
 permissions:
   contents: read
@@ -831,12 +836,14 @@ jobs:
             throw 'Release x64 executable was not produced.'
           }
 
-          $staging = Join-Path $env:RUNNER_TEMP 'ThreatIntelligenceConsumer-x64-multiprovider-tdh-ndjson'
+          $staging = Join-Path $env:RUNNER_TEMP 'ThreatIntelligenceConsumer-x64-sense-three-providers'
           New-Item -ItemType Directory -Path $staging -Force | Out-Null
 
           $outputExe = Join-Path $staging 'ThreatIntelligenceConsumer-json.exe'
           Copy-Item $exe.FullName $outputExe
           Copy-Item (Join-Path $env:RUNNER_TEMP 'json-output.patch') $staging
+          Copy-Item .\profiles\sense-three-providers.reg $staging
+          Copy-Item .\profiles\README.md (Join-Path $staging 'CAPTURE_INSTRUCTIONS.md')
 
           $hash = Get-FileHash $outputExe -Algorithm SHA256
           $hash.Hash | Set-Content (Join-Path $staging 'SHA256.txt') -Encoding ascii
@@ -847,7 +854,10 @@ jobs:
             'Base upstream commit: bcaa3e2c10d6aea0b78dc5a8b6142cac37eb585c'
             "Built UTC: $([DateTime]::UtcNow.ToString('o'))"
             'Platform: Release x64'
-            'Scope: every provider configured under 0MyThreatIntelTrace'
+            'Profile: sense-three-providers.reg; import and reboot before capture'
+            'Profile scope: Sense.Client, DefenderCore1DS, Sense.GeneratedETW only'
+            'Decoder scope: every provider configured under 0MyThreatIntelTrace'
+            'Runtime delivery: not established by this build'
             'Payload decoding: TDH metadata with bounded property and array handling'
             'Fallback decoding: conservative counted UTF-16 strings when TDH metadata is unavailable'
             'Raw preservation: user_data_hex and extended_data remain in every event record'
@@ -858,10 +868,10 @@ jobs:
           Get-Item $outputExe | Format-List FullName,Length,LastWriteTimeUtc
           $hash | Format-List Algorithm,Hash,Path
 
-      - name: Upload x64 TDH-decoding multi-provider NDJSON executable
+      - name: Upload x64 decoder and three-provider capture profile
         uses: actions/upload-artifact@v4
         with:
-          name: ThreatIntelligenceConsumer-x64-multiprovider-tdh-ndjson
-          path: ${{ runner.temp }}\ThreatIntelligenceConsumer-x64-multiprovider-tdh-ndjson
+          name: ThreatIntelligenceConsumer-x64-sense-three-providers
+          path: ${{ runner.temp }}\ThreatIntelligenceConsumer-x64-sense-three-providers
           if-no-files-found: error
           retention-days: 7
