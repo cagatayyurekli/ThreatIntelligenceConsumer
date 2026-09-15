@@ -1,4 +1,7 @@
 # ThreatIntelligenceConsumer
+
+For the focused Sense.Client / DefenderCore1DS / Sense.GeneratedETW capture, use the [three-provider test profile and NDJSON build instructions](profiles/README.md). The instructions below describe the original single-provider proof of concept.
+
 Proof-of-concept (POC) to consume from the Microsoft-Windows-Threat-Intelligence ETW provider without needing Protected Process Light (PPL) permissions/signing or a driver that does kernel-mode patching. It has been formally tested against Windows 11 24H2 and Windows 11 25H2 (alongside the latest Canary Insider Preview build, as of the time of this POC being uploaded).
 
 ## Output
